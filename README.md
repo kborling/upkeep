@@ -21,10 +21,10 @@
 <br />
 <div align="center">
   <a href="https://github.com/kborling/upkeep">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
+    <img src="images/logo.png" alt="Logo" width="120" height="120">
   </a>
 
-<h3 align="center">Upkeep</h3>
+<h2 align="center">Upkeep</h2>
 
   <p align="center">
     Upkeep your websites and web applications with ease from the comfort of the command line.
