@@ -27,7 +27,7 @@
 <h3 align="center">Upkeep</h3>
 
   <p align="center">
-    project_description
+    Upkeep your websites and web applications with ease from the comfort of the command line.
     <br />
     <a href="https://github.com/kborling/upkeep"><strong>Explore the docs »</strong></a>
     <br />
@@ -74,8 +74,6 @@
 ## About The Project
 
 [![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-Here's a blank template to get started: To avoid retyping too much info. Do a search and replace with your text editor for the following: `kborling`, `upkeep`, `twitter_handle`, `linkedin_username`, `email`, `email_client`, `project_title`, `project_description`
 
 <p align="right">(<a href="#top">back to top</a>)</p>
 
