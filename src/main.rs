@@ -2,7 +2,7 @@ use dirs::home_dir;
 use ssh2::{MethodType, Session};
 use ssh2_config::{HostParams, SshConfig};
 use std::env::args;
-use std::fs::File;
+use std::fs;
 use std::io::BufReader;
 use std::net::{SocketAddr, TcpStream, ToSocketAddrs};
 use std::path::{Path, PathBuf};
@@ -12,14 +12,8 @@ use std::time::Duration;
 fn main() {
     // get args
     let args: Vec<String> = args().collect();
-    // let address = match args.get(1) {
-    //     Some(addr) => addr.to_string(),
-    //     None => {
-    //         usage();
-    //         exit(255)
-    //     }
-    // };
-    // check path
+    // check if config path is passed in
+    // default to ~/.ssh/config
     let config_path = match args.get(1) {
         Some(p) => PathBuf::from(p),
         None => {
@@ -34,15 +28,41 @@ fn main() {
     // connect(address.as_str(), &params);
     println!("{:?}", config);
 
+
     // TODO: Read all Hosts to present as options
+    let host_options = get_host_options(config_path.as_path());
+    println!("{:?}", host_options);
 }
 
-// fn usage() {
-//     eprintln!("Usage: cargo run --[config-path]");
-// }
+/*
+ * Read and parse the specified
+ * SSH configuration file and
+ * build a list of Host options
+ */
+fn get_host_options(p: &Path) -> Vec<String> {
+    let mut options = vec![];
+    let contents = fs::read_to_string(&p).expect("Something went wrong reading the file");
 
+    for line in contents.lines() {
+        match line.split_whitespace().next() {
+            Some(x) => {
+                if x == "Host" {
+                    let connection = line.split_whitespace().last().unwrap_or("").to_string();
+                    options.push(connection);
+                }
+            },
+            None => ()
+        }
+    }
+    options
+}
+
+/*
+ * Read and parse the specified
+ * SSH configuration file.
+ */
 fn read_config(p: &Path) -> SshConfig {
-    let mut reader = match File::open(p) {
+    let mut reader = match fs::File::open(p) {
         Ok(f) => BufReader::new(f),
         Err(err) => panic!("Could not open file '{}': {}", p.display(), err),
     };
@@ -52,6 +72,10 @@ fn read_config(p: &Path) -> SshConfig {
     }
 }
 
+/*
+ * Connect to the specified host using
+ * the host parameters.
+ */
 fn connect(host: &str, params: &HostParams) {
     // Resolve host
     let host = match params.host_name.as_deref() {
@@ -129,6 +153,10 @@ fn connect(host: &str, params: &HostParams) {
     }
 }
 
+/*
+ * Configure the SSH session before
+ * making the connection.
+ */
 fn configure_session(session: &mut Session, params: &HostParams) {
     println!("Configuring session...");
     if let Some(compress) = params.compression {
@@ -169,6 +197,9 @@ fn configure_session(session: &mut Session, params: &HostParams) {
     }
 }
 
+/*
+ * Read password input from Stdin
+ */
 fn read_secret(prompt: &str) -> String {
     rpassword::read_password_from_tty(Some(prompt)).expect("Failed to read from stdin")
 }
