@@ -8,3 +8,5 @@ edition = "2021"
 [dependencies]
 clap = "2"
 dirs = "4"
+ssh2 = "0.9"
+ssh2-config = "^0.1.0"
