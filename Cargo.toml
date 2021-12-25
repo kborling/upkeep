@@ -20,9 +20,18 @@ thiserror = "^1.0.0"
 wildmatch = "^2.1.0"
 
 [dependencies]
+log = "0.4"
 dirs = "^4.0.0"
 pretty_assertions = "^1.0.0"
 rpassword = "^5.0.0"
 ssh2 = "^0.9.0"
 ssh2-config = "^0.1.0"
 tempfile = "^3.2.0"
+
+crossterm = "0.20"
+tui-logger = "0.6"
+# tui-logger = { git = "https://github.com/gin66/tui-logger", rev = "3a3568e2464dddc2205e071234135998342d7f1d" }
+tui = { version = "0.16", default-features = false, features = ['crossterm'] }
+tokio = { version = "1", features = ["full"] }
+
+eyre = "0.6"
