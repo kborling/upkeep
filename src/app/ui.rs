@@ -99,11 +99,17 @@ fn draw_body<'a>(loading: bool, state: &AppState) -> Paragraph<'a> {
     } else {
         String::default()
     };
+    let host_text = if let Some(hosts) = state.get_hosts() {
+        format!("Hosts: {:?}", hosts)
+    } else {
+        String::default()
+    };
     Paragraph::new(vec![
         Spans::from(Span::raw(initialized_text)),
         Spans::from(Span::raw(loading_text)),
         Spans::from(Span::raw(sleep_text)),
         Spans::from(Span::raw(tick_text)),
+        Spans::from(Span::raw(host_text)),
     ])
     .style(Style::default().fg(Color::LightCyan))
     .alignment(Alignment::Left)

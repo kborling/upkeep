@@ -1,4 +1,5 @@
 use std::{time::Duration, vec};
+use crate::{app::App, ssh::SSHClient};
 
 #[derive(Clone)]
 pub enum AppState {
@@ -82,14 +83,16 @@ impl AppState {
         }
     }
 
-    pub fn get_hosts(&mut self) {
+    pub fn get_hosts(&self) -> Option<&Vec<String>> {
         if let Self::Initialized { hosts, .. } = self {
-            // TODO: Get hosts
-            // *hosts = SSH
+            Some(hosts)
+        } else {
+            None
         }
     }
 
     pub fn edit_ssh_config(&mut self) {
+        // TODO: Execute external editor to open/edit SSH config
         // if let Self::Initialized { counter_sleep, .. } = self {
         //     *counter_sleep += 1;
         // }

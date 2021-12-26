@@ -56,11 +56,13 @@ pub async fn start_ui(app: &Arc<tokio::sync::Mutex<App>>) -> Result<()> {
     }
 
     // Restore the terminal and close application
-    terminal.clear()?;
-    terminal.show_cursor()?;
     crossterm::terminal::disable_raw_mode()?;
-
-    // FIXME: Issue with prompt location when exiting
+    crossterm::execute!(
+        terminal.backend_mut(),
+        crossterm::terminal::LeaveAlternateScreen,
+    )?;
+    terminal.show_cursor()?;
+    terminal.clear()?;
 
     Ok(())
 }
