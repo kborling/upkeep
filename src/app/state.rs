@@ -83,9 +83,12 @@ impl AppState {
         }
     }
 
-    pub fn get_hosts(&self) -> Option<&Vec<String>> {
+    pub fn get_hosts(&self) -> Option<Vec<String>> {
         if let Self::Initialized { hosts, .. } = self {
-            Some(hosts)
+            let options = SSHClient::get_host_options();
+            // *hosts = SSHClient::get_host_options().to_vec();
+            Some(options)
+            // Some(hosts)
         } else {
             None
         }

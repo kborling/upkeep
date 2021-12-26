@@ -29,6 +29,7 @@ impl SSHClient {
 
         let mut p = home_dir().expect("Failed to get Home directory.");
         p.extend(Path::new(".ssh/config"));
+        // println!("Path: {:?}", p);
 
         let mut options = vec![];
         let contents = fs::read_to_string(&p).expect("Something went wrong reading the file");
